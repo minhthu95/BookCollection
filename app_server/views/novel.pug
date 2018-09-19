@@ -1,0 +1,7 @@
+extends layout
+
+block content
+    h1= 'Here is list of novels in this page that available for free download and reading online.'
+    ul
+        each novel in novels
+            li= novel.name + ' by ' + novel.author
