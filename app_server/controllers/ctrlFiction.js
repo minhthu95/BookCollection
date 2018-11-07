@@ -1,15 +1,30 @@
+const request = require('request');
+const apiURL = require('./apiURLs');
+
 const fictionlist = function(req, res){
-    res.render('fiction',{
-        fictions:
-            [
-                {image:'images/fiction/the_great_gatsby.jpg',author:'Francis Scott Fitzgerald', name:'The Great Gatsby'},
-                {image:'images/fiction/romeo_and_juliet.jpg',author:'William Shakespeare', name:'Romeo And Juliet'},
-                {image:'images/fiction/anna_karenina.jpg',author:'Graf Leo Tolstoy', name:'Anna Karenina'},
-                {image:'images/fiction/huckleberry_finn.jpg',author:'Mark Twain', name:'Adventures of Huckleberry Finn'},
-                {image:'images/fiction/two_cities.jpg',author:'Charles Dickens', name:'A Tale of Two Cities'},
-                {image:'images/fiction/hamlet.jpg', author:'William Shakespeare', name:'Hamlet'},
-                {image:'images/fiction/monte_cristo.jpg', author:'Alexandre Dumas', name:'The Count of Monte Cristo'}
-            ]});
+    const path= '/api/fiction';
+    const requestOption = {
+        url : apiURL.server + path,
+        method : 'GET',
+        json : {},
+        qs : {}
+    };
+    request(
+        requestOption,
+        function (err, response, body) {
+            if (err) {
+                res.render('error', {message : err.message});
+            } else if (response.statusCode !== 200){
+                res.render('error', {message : 'Error accessing API: ' + response.statusMessage + " ("+ response.statusCode + ") "});
+            } else if (!(body instanceof Array)) {
+                res.render('error', {message : 'Unexpected response data'});
+            } else if (!body.length) {
+                res.render('error', {message : 'No documents in collection'});
+            } else {
+                res.render('fiction', {fictions : body});
+            }
+        }
+    );
 };
 module.exports = {
     fictionlist
