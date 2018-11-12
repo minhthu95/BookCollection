@@ -11,4 +11,8 @@ router.get('/', ctrlMain.index); //Home page
 router.get('/fiction', ctrlFiction.fictionlist); //List of fictions
 router.get('/novel', ctrlNovel.novellist); //List of novels
 
+router
+    .route('/fiction/add')
+    .get(ctrlFiction.showForm) //Display the form
+    .post(ctrlFiction.addData);
 module.exports = router;

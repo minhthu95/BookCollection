@@ -1,6 +1,38 @@
 const request = require('request');
 const apiURL = require('./apiURLs');
 
+const showForm = function (req, res) {
+    res.render('fiction_add');
+};
+
+const addData = function (req, res) {
+    const path='api/fiction';
+
+    const postData = {
+        name: req.body.name,
+        author: req.body.author
+    };
+
+    const requestOptions = {
+        url : apiURL.server + path,
+        method : 'POST',
+        json : postData
+    };
+
+    request(
+        requestOptions,
+        function (err, response){
+            if (response.statusCode === 201) {
+                res.redirect('/fiction');
+            } else {
+                res.render('error', {message: 'Error adding data: ' +
+                        response.statusMessage +
+                        ' ('+ response.statusCode + ')' });
+            }
+        }
+    );
+};
+
 const fictionlist = function(req, res){
     const path= '/api/fiction';
     const requestOption = {
@@ -27,5 +59,8 @@ const fictionlist = function(req, res){
     );
 };
 module.exports = {
-    fictionlist
+    fictionlist,
+    showForm,
+    addData
 };
+
