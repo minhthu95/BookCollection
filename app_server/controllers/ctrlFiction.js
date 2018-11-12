@@ -6,17 +6,18 @@ const showForm = function (req, res) {
 };
 
 const addData = function (req, res) {
-    const path='api/fiction';
+    const path='/api/fiction';
 
-    const postData = {
+    const postdata = {
         name: req.body.name,
-        author: req.body.author
+        author: req.body.author,
+        image: req.body.image
     };
 
     const requestOptions = {
         url : apiURL.server + path,
         method : 'POST',
-        json : postData
+        json : postdata
     };
 
     request(
