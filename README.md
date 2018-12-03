@@ -1,1 +1,2 @@
-Simple Node.js server for testing purposes
+BookCollection
+Web App Development with MEAN (using Node.js, RESTful API, MongoDB, Mongoose)
